@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticlePage from '../../components/ArticlePage.astro';
+import { wellness } from '../../data/index.js';
+
+export function getStaticPaths() {
+  return wellness.en.map((a) => ({ params: { slug: a.slug }, props: { article: a } }));
+}
+
+const { article } = Astro.props;
+---
+
+<BaseLayout locale="en" title={article.title} description={article.sub}>
+  <ArticlePage locale="en" section="wellness" article={article} />
+</BaseLayout>
