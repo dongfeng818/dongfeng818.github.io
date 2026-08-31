@@ -1,0 +1,62 @@
+---
+import { ui, prefix } from '../i18n/ui.js';
+
+const { locale = 'en' } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const p = prefix(locale);
+const path = Astro.url.pathname;
+
+function isActive(href) {
+  const h = href.replace(/index\.html$/, '');
+  if (h === `${p}/` || h === `${p}`) return path === '/' || path === `/${locale}/` || path === `/${locale}`;
+  return path.startsWith(h);
+}
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href={`${p}/index.html`}>
+      <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="21.6" fill="none" stroke="#2a6b57" stroke-width="1.8" opacity="0.6" />
+        <path d="M24 12 C32.5 16.6 34.4 25.8 31 33.8 C28.7 38.8 25.8 40.4 24 40.4 C22.2 40.4 19.3 38.8 17 33.8 C13.6 25.8 15.5 16.6 24 12 Z" fill="#2a6b57" />
+        <path d="M24 13.2 C22.5 10.6 21 9.7 19.8 9.2 C21.3 9.5 22.8 10.6 24 13.2 Z" fill="#b4623d" />
+        <path d="M24 13.2 C25.5 10.6 27 9.7 28.2 9.2 C26.7 9.5 25.2 10.6 24 13.2 Z" fill="#9dbfb0" />
+        <path d="M22.5 39.4 C22 40.9 22.4 41.7 21.9 42.8" fill="none" stroke="#9dbfb0" stroke-width="1.7" stroke-linecap="round" />
+        <path d="M25.5 39.4 C26 40.9 25.6 41.7 26.1 42.8" fill="none" stroke="#9dbfb0" stroke-width="1.7" stroke-linecap="round" />
+        <path d="M16.8 17.2 C22.2 19.3 21.2 23.6 24 25.2 C26.8 26.8 25.8 30.9 31.2 32.8" fill="none" stroke="#b4623d" stroke-width="2.4" stroke-linecap="round" />
+        <circle cx="24" cy="25.2" r="3" fill="#b4623d" stroke="#fbfaf7" stroke-width="1.3" />
+      </svg>
+      <span>{t.siteName}</span>
+      <span class="zh">{t.siteNameZh}</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary">
+      <a href={`${p}/basics/index.html`} aria-current={isActive(`${p}/basics/index.html`) ? 'page' : undefined}>{t.navBasics}</a>
+      <a href={`${p}/wellness/index.html`} aria-current={isActive(`${p}/wellness/index.html`) ? 'page' : undefined}>{t.navWellness}</a>
+      <a href={`${p}/constitution/index.html`} aria-current={isActive(`${p}/constitution/index.html`) ? 'page' : undefined}>{t.navTest}</a>
+      <a href={`${p}/glossary/index.html`} aria-current={isActive(`${p}/glossary/index.html`) ? 'page' : undefined}>{t.navGlossary}</a>
+      <a href={`${p}/about/index.html`} aria-current={isActive(`${p}/about/index.html`) ? 'page' : undefined}>{t.navAbout}</a>
+    </nav>
+
+    <div class="lang-switch" role="group" aria-label="Language">
+      <a href="/index.html" data-lang="en" class={locale === 'en' ? 'active' : ''}>EN</a>
+      <a href="/es/index.html" data-lang="es" class={locale === 'es' ? 'active' : ''}>ES</a>
+      <a href="/fr/index.html" data-lang="fr" class={locale === 'fr' ? 'active' : ''}>FR</a>
+      <a href="/zh/index.html" data-lang="zh" class={locale === 'zh' ? 'active' : ''}>中文</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .lang-switch a.active {
+    background: var(--cinnabar);
+    border-color: var(--cinnabar);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 5px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(42, 107, 87, 0.28);
+  }
+</style>
