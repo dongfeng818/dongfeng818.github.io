@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GlossaryPage from '../../components/GlossaryPage.astro';
+import { ui } from '../../i18n/ui.js';
+const t = ui.en;
+---
+
+<BaseLayout locale="en" title={t.glossaryTitle} description={t.glossaryLead}>
+  <GlossaryPage locale="en" />
+</BaseLayout>
