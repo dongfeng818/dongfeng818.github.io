@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticlePage from '../../../components/ArticlePage.astro';
+import { basics } from '../../../data/index.js';
+
+// 为 es / fr / zh 三个语言前缀生成所有 basics 文章路由
+export function getStaticPaths() {
+  const paths = [];
+  for (const locale of ['es', 'fr', 'zh']) {
+    for (const a of basics[locale]) {
+      paths.push({ params: { locale, slug: a.slug }, props: { article: a, locale } });
+    }
+  }
+  return paths;
+}
+
+const { article, locale } = Astro.props;
+---
+
+<BaseLayout locale={locale} title={article.title} description={article.sub}>
+  <ArticlePage locale={locale} section="basics" article={article} />
+</BaseLayout>
