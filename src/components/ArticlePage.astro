@@ -1,0 +1,61 @@
+---
+import { ui, prefix } from '../i18n/ui.js';
+import { basics, wellness } from '../data/index.js';
+
+const { locale = 'en', section = 'basics', article } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const p = prefix(locale);
+const list = (section === 'basics' ? basics : wellness)[locale] ?? (section === 'basics' ? basics : wellness).en;
+const idx = list.findIndex((a) => a.slug === article.slug);
+const related = list.filter((_, i) => i !== idx).slice(0, 3);
+const sectionTitle = section === 'basics' ? t.navBasics : t.navWellness;
+---
+
+<article>
+  <div class="container">
+    <header class="article-hero">
+      <p class="crumb"><a href={`${p}/index.html`}>{t.siteName}</a> / <a href={`${p}/${section}/index.html`}>{sectionTitle}</a></p>
+      <h1>{article.title}</h1>
+      <p class="sub">{article.sub}</p>
+      <div class="facts">
+        <span><span class="zh">{article.zh}</span> · {article.pinyin}</span>
+        <span>{t.readingTime}: {article.minutes} {t.minRead}</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+      {article.quote && (
+        <blockquote>
+          “{article.quote.text}”
+          <span class="zh">{article.quote.zh}</span>
+        </blockquote>
+      )}
+      {article.sections.map((s) => (
+        <section>
+          <h2>{s.h}</h2>
+          {s.ps.map((para) => <p set:html={para.replace(/(Yin|Yang|Qi|Wu Xing|Zang|Fu|Jing|Shen|TCM|MTC)/g, (m) => (m === 'TCM' || m === 'MTC' ? m : `<span class="term">${m}</span>`))} />)}
+        </section>
+      ))}
+    </div>
+
+    <div class="related">
+      <div class="section-head">
+        <p class="kicker">{t.featuredKicker}</p>
+        <h2>{t.relatedTitle}</h2>
+      </div>
+      <div class="card-grid">
+        {related.map((a) => (
+          <a class="article-card" href={`${p}/${section}/${a.slug}/index.html`}>
+            <h3>{a.title}</h3>
+            <p>{a.sub}</p>
+            <span class="foot">
+              <span class="zh-term">{a.zh} {a.pinyin}</span>
+              <span>{a.minutes} {t.minRead}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top: 24px;"><a href={`${p}/${section}/index.html`}>← {t.backToSection}</a></p>
+    </div>
+  </div>
+</article>
