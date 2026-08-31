@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionPage from '../../components/SectionPage.astro';
+import { ui } from '../../i18n/ui.js';
+const t = ui.en;
+---
+
+<BaseLayout locale="en" title={t.basicsTitle} description={t.basicsDesc}>
+  <SectionPage locale="en" section="basics" />
+</BaseLayout>
