@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConstitutionTestPage from '../../../components/ConstitutionTestPage.astro';
+import { ui } from '../../../i18n/ui.js';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'es' } }, { params: { locale: 'fr' } }, { params: { locale: 'zh' } }];
+}
+
+const { locale } = Astro.params;
+const t = ui[locale] ?? ui.en;
+---
+
+<BaseLayout locale={locale} title={t.testTitle} description={t.testLead}>
+  <ConstitutionTestPage locale={locale} />
+</BaseLayout>
