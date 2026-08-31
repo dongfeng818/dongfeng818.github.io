@@ -1,0 +1,35 @@
+---
+import { ui, prefix } from '../i18n/ui.js';
+import { basics, wellness, basicsGlyphs, wellnessGlyphs } from '../data/index.js';
+
+const { locale = 'en', section = 'basics' } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const p = prefix(locale);
+const isBasics = section === 'basics';
+const list = (isBasics ? basics : wellness)[locale] ?? (isBasics ? basics : wellness).en;
+const glyphs = isBasics ? basicsGlyphs : wellnessGlyphs;
+const kicker = isBasics ? t.basicsKicker : t.wellnessKicker;
+const title = isBasics ? t.basicsTitle : t.wellnessTitle;
+const desc = isBasics ? t.basicsDesc : t.wellnessDesc;
+---
+
+<section class="section" style="padding-top: 80px;">
+  <div class="container">
+    <div class="section-head">
+      <p class="kicker">{kicker}</p>
+      <h1 class="page-title">{title}</h1>
+      <p class="page-lead">{desc}</p>
+      <p style="margin-top: 10px; font-size: 0.85rem; color: var(--ink-soft);">{list.length} {t.articlesCount} · {locale.toUpperCase()}</p>
+    </div>
+    <div class="card-grid">
+      {list.map((a) => (
+        <a class="topic-card" href={`${p}/${section}/${a.slug}/index.html`}>
+          <span class="glyph">{glyphs[a.slug] ?? '医'}</span>
+          <h3>{a.title}</h3>
+          <p>{a.sub}</p>
+          <span class="meta">{a.zh} · {a.pinyin} · {a.minutes} {t.minRead}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
