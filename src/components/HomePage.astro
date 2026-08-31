@@ -1,0 +1,158 @@
+---
+import { ui, prefix } from '../i18n/ui.js';
+import { basics, wellness, basicsGlyphs, wellnessGlyphs } from '../data/index.js';
+
+const { locale = 'en' } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const p = prefix(locale);
+const basicsList = basics[locale] ?? basics.en;
+const wellnessList = wellness[locale] ?? wellness.en;
+// 精选：基础理论 3 篇 + 养生 1 篇
+const featured = [
+  basicsList[0],
+  basicsList[1],
+  basicsList[3],
+  wellnessList[0],
+];
+---
+
+<!-- Hero -->
+<section class="hero">
+  <svg class="hero-deco" viewBox="0 0 520 520" aria-hidden="true">
+    <!-- outer hairline ring -->
+    <circle cx="260" cy="260" r="252" fill="none" stroke="#2a6b57" stroke-opacity="0.16" stroke-width="1" />
+    <!-- counter-rotating dashed orbit -->
+    <g class="deco-orbit-rev">
+      <circle cx="260" cy="260" r="206" fill="none" stroke="#b4623d" stroke-opacity="0.3" stroke-width="1" stroke-dasharray="2 8" stroke-linecap="round" />
+    </g>
+    <!-- orbiting satellite on a second dashed ring -->
+    <g class="deco-orbit">
+      <circle cx="260" cy="54" r="5" fill="#b4623d" />
+      <circle cx="260" cy="54" r="10" fill="none" stroke="#b4623d" stroke-opacity="0.3" stroke-width="1" />
+    </g>
+    <!-- inner hairline circle around the seed -->
+    <circle cx="260" cy="260" r="118" fill="none" stroke="#2a6b57" stroke-opacity="0.22" stroke-width="1" />
+    <!-- seed mark: sprout + gold meridian + acupoints, kept quiet and restrained -->
+    <g transform="translate(90,87.5) scale(0.5)" opacity="0.95">
+      <path d="M340 130 C490 205 515 360 460 480 C415 545 380 560 340 560 C300 560 265 545 220 480 C165 360 190 205 340 130 Z" fill="#2a6b57" fill-opacity="0.12" stroke="#2a6b57" stroke-opacity="0.4" stroke-width="1.4" />
+      <path d="M340 132 C322 110 302 102 286 96 C306 100 328 110 340 132 Z" fill="#b4623d" opacity="0.85" />
+      <path d="M340 132 C358 110 378 102 394 96 C374 100 352 110 340 132 Z" fill="#9dbfb0" opacity="0.85" />
+      <path d="M322 550 C314 566 318 578 310 586" fill="none" stroke="#9dbfb0" stroke-width="4" stroke-linecap="round" opacity="0.85" />
+      <path d="M358 550 C366 566 362 578 370 586" fill="none" stroke="#9dbfb0" stroke-width="4" stroke-linecap="round" opacity="0.85" />
+      <path d="M210 250 C320 280 300 330 340 380 C380 430 400 470 470 480" fill="none" stroke="#b4623d" stroke-width="5.5" stroke-linecap="round" opacity="0.9" />
+      <circle cx="301" cy="308" r="7" fill="#b4623d" stroke="#fbfaf7" stroke-width="2.5" opacity="0.95" />
+      <circle cx="340" cy="380" r="9" fill="#b4623d" stroke="#fbfaf7" stroke-width="2.5" opacity="0.95" />
+      <circle cx="394" cy="445" r="7" fill="#b4623d" stroke="#fbfaf7" stroke-width="2.5" opacity="0.95" />
+    </g>
+    <!-- small static accent dots -->
+    <circle cx="48" cy="260" r="3" fill="#2a6b57" opacity="0.35" />
+    <circle cx="472" cy="260" r="3" fill="#2a6b57" opacity="0.2" />
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">{t.heroEyebrow}</span>
+    <h1>{t.heroTitle}</h1>
+    <p class="lead">{t.heroLead}</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href={`${p}/basics/index.html`}>{t.ctaExplore}</a>
+      <a class="btn btn-ghost" href={`${p}/constitution/index.html`}>{t.navTest} →</a>
+      <a class="btn btn-ghost" href={`${p}/glossary/index.html`}>{t.ctaGlossary}</a>
+    </div>
+  </div>
+</section>
+
+<!-- 数据带 -->
+<section class="section" style="padding: 56px 0;">
+  <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+    <div style="padding: 28px 16px;">
+      <div style="font-family: var(--font-serif); font-size: clamp(1.9rem, 3vw, 2.4rem); font-weight: 550; letter-spacing: -0.02em; color: var(--cinnabar); line-height: 1.1;">2300+</div>
+      <div style="font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px;">{t.statsYears}</div>
+    </div>
+    <div style="padding: 28px 16px; border-left: 1px solid var(--line); border-right: 1px solid var(--line);">
+      <div style="font-family: var(--font-serif); font-size: clamp(1.9rem, 3vw, 2.4rem); font-weight: 550; letter-spacing: -0.02em; color: var(--gold); line-height: 1.1;">《黄帝内经》</div>
+      <div style="font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px;">{t.statsStart}</div>
+    </div>
+    <div style="padding: 28px 16px;">
+      <div style="font-family: var(--font-serif); font-size: clamp(1.9rem, 3vw, 2.4rem); font-weight: 550; letter-spacing: -0.02em; color: var(--jade); line-height: 1.1;">1</div>
+      <div style="font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px;">{t.statsWhole}</div>
+    </div>
+  </div>
+</section>
+
+<!-- 两大板块 -->
+<section class="section" style="padding-top: 40px;">
+  <div class="container">
+    <div class="section-head">
+      <p class="kicker">{t.basicsKicker}</p>
+      <h2>{t.basicsTitle}</h2>
+      <p>{t.basicsDesc}</p>
+    </div>
+    <div class="card-grid">
+      {basicsList.map((a) => (
+        <a class="topic-card" href={`${p}/basics/${a.slug}/index.html`}>
+          <span class="glyph">{basicsGlyphs[a.slug] ?? '医'}</span>
+          <h3>{a.title}</h3>
+          <p>{a.sub}</p>
+          <span class="meta">{a.zh} · {a.pinyin} · {a.minutes} {t.minRead}</span>
+        </a>
+      ))}
+    </div>
+    <p style="margin-top: 32px;"><a href={`${p}/basics/index.html`}>{t.allArticles} →</a></p>
+  </div>
+</section>
+
+<section class="section" style="background: linear-gradient(180deg, var(--paper-deep), rgba(251, 250, 247, 0.5)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="container">
+    <div class="section-head">
+      <p class="kicker">{t.wellnessKicker}</p>
+      <h2>{t.wellnessTitle}</h2>
+      <p>{t.wellnessDesc}</p>
+    </div>
+    <div class="card-grid">
+      {wellnessList.map((a) => (
+        <a class="topic-card" href={`${p}/wellness/${a.slug}/index.html`}>
+          <span class="glyph">{wellnessGlyphs[a.slug] ?? '养'}</span>
+          <h3>{a.title}</h3>
+          <p>{a.sub}</p>
+          <span class="meta">{a.zh} · {a.pinyin} · {a.minutes} {t.minRead}</span>
+        </a>
+      ))}
+    </div>
+    <p style="margin-top: 32px;"><a href={`${p}/wellness/index.html`}>{t.allArticles} →</a></p>
+  </div>
+</section>
+
+<!-- 体质测试推广 -->
+<section class="section" style="padding-top: 24px;">
+  <div class="container">
+    <a class="topic-card promo-card" href={`${p}/constitution/index.html`}>
+      <span class="glyph">质</span>
+      <span>
+        <strong style="display:block; font-family:var(--font-serif); font-size:1.25rem; font-weight:600; color:var(--ink); letter-spacing:-0.01em;">{t.testTitle}</strong>
+        <span style="display:block; color:var(--ink-soft); font-size:0.92rem; margin-top:6px; line-height:1.6;">{t.testMeta} · {t.testNote}</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- 精选 -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="kicker">{t.featuredKicker}</p>
+      <h2>{t.featuredTitle}</h2>
+    </div>
+    <div class="card-grid">
+      {featured.map((a, i) => (
+        <a class="article-card" href={`${p}/${i === 3 ? 'wellness' : 'basics'}/${a.slug}/index.html`}>
+          <span class="tag">{i === 3 ? t.wellnessKicker : t.basicsKicker}</span>
+          <h3>{a.title}</h3>
+          <p>{a.sub}</p>
+          <span class="foot">
+            <span class="zh-term">{a.zh} {a.pinyin}</span>
+            <span>{a.minutes} {t.minRead}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
