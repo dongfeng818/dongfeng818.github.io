@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ConstitutionTestPage from '../../components/ConstitutionTestPage.astro';
+import { ui } from '../../i18n/ui.js';
+const t = ui.en;
+---
+
+<BaseLayout locale="en" title={t.testTitle} description={t.testLead}>
+  <ConstitutionTestPage locale="en" />
+</BaseLayout>
