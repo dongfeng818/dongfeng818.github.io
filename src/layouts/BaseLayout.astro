@@ -1,0 +1,53 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import { ui, prefix } from '../i18n/ui.js';
+
+const { locale = 'en', title, description } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const siteUrl = Astro.site ?? 'https://dongfeng818.github.io';
+// 规范化路径：当前页面去掉 index.html 后的完整 URL
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '/index.html'), siteUrl);
+const pageTitle = title ? `${title} | ${t.siteName}` : `${t.siteName} — ${t.tagline}`;
+const pageDesc = description ?? t.heroLead;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === 'en' ? 'en_US' : locale === 'es' ? 'es_ES' : locale === 'fr' ? 'fr_FR' : 'zh_CN'} />
+    <meta name="theme-color" content="#fbfaf7" />
+    <link rel="alternate" hreflang="en" href={new URL('/index.html', siteUrl)} />
+    <link rel="alternate" hreflang="es" href={new URL('/es/index.html', siteUrl)} />
+    <link rel="alternate" hreflang="fr" href={new URL('/fr/index.html', siteUrl)} />
+    <link rel="alternate" hreflang="zh" href={new URL('/zh/index.html', siteUrl)} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/index.html', siteUrl)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Fonts: Fraunces (display serif, incl. italic) + Inter (body), Noto SC for Chinese -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,550;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skipToContent}</a>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
