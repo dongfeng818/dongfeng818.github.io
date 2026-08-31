@@ -1,0 +1,79 @@
+---
+import { ui, prefix } from '../i18n/ui.js';
+
+const { locale = 'en' } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const p = prefix(locale);
+
+// Newsletter 占位文案（组件级，不依赖数据层）
+const nl = {
+  en: { kicker: 'Newsletter', ph: 'Your email address', cta: 'Subscribe' },
+  es: { kicker: 'Boletín', ph: 'Tu correo electrónico', cta: 'Suscribirse' },
+  fr: { kicker: 'Newsletter', ph: 'Votre adresse e-mail', cta: 'S’abonner' },
+  zh: { kicker: '订阅通讯', ph: '你的电子邮箱', cta: '订阅' },
+}[locale] ?? { kicker: 'Newsletter', ph: 'Your email address', cta: 'Subscribe' };
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- Newsletter 占位区 -->
+    <div class="footer-cta">
+      <div>
+        <p class="kicker">{nl.kicker}</p>
+        <h3 class="footer-cta-title">{t.tagline}</h3>
+      </div>
+      <form class="footer-news" onsubmit="return false;" aria-label={nl.kicker}>
+        <label class="visually-hidden" for="footer-email">{nl.ph}</label>
+        <input id="footer-email" type="email" placeholder={nl.ph} autocomplete="email" />
+        <button class="btn btn-primary" type="submit">{nl.cta}</button>
+      </form>
+    </div>
+
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">{t.siteName} <span class="zh">{t.siteNameZh}</span></div>
+        <p class="footer-note">{t.footerAboutText}</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram" title="Instagram">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </a>
+          <a href="#" aria-label="YouTube" title="YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <rect x="2.5" y="6" width="19" height="12.5" rx="3.5"></rect>
+              <path d="M10.5 9.8v5l4.5-2.5z" fill="currentColor" stroke="none"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="X" title="X">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.7 3H21l-7.3 8.3L22.2 21h-6.7l-5.2-6.1L4.4 21H1l7.8-8.9L1.8 3h6.9l4.7 5.6L17.7 3zm-1.2 16h1.9L7.7 4.9H5.7L16.5 19z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>{t.footerSections}</h4>
+        <a href={`${p}/basics/index.html`}>{t.navBasics}</a>
+        <a href={`${p}/wellness/index.html`}>{t.navWellness}</a>
+        <a href={`${p}/constitution/index.html`}>{t.navTest}</a>
+        <a href={`${p}/glossary/index.html`}>{t.navGlossary}</a>
+        <a href={`${p}/about/index.html`}>{t.navAbout}</a>
+      </div>
+      <div>
+        <h4>{t.footerLangs}</h4>
+        <a href="/index.html">English</a>
+        <a href="/es/index.html">Español</a>
+        <a href="/fr/index.html">Français</a>
+        <a href="/zh/index.html">简体中文</a>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>{t.disclaimerTitle}:</strong> {t.disclaimerText}
+      <br />© {new Date().getFullYear()} {t.copyright}
+    </div>
+  </div>
+  <div class="footer-watermark" aria-hidden="true">医</div>
+</footer>
