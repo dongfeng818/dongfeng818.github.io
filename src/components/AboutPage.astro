@@ -1,0 +1,29 @@
+---
+import { ui } from '../i18n/ui.js';
+import { about } from '../data/about.js';
+
+const { locale = 'en' } = Astro.props;
+const t = ui[locale] ?? ui.en;
+const a = about[locale] ?? about.en;
+---
+
+<section class="section" style="padding-top: 80px;">
+  <div class="container">
+    <div class="section-head">
+      <p class="kicker">{t.aboutKicker}</p>
+      <h1 class="page-title">{t.aboutTitle}</h1>
+      <p class="page-lead">{a.lead}</p>
+    </div>
+    <div class="article-body" style="padding-top: 8px;">
+      {a.sections.map((s) => (
+        <section>
+          <h2>{s.h}</h2>
+          {s.ps.map((para) => <p>{para}</p>)}
+        </section>
+      ))}
+      <blockquote>
+        <strong>{t.disclaimerTitle}.</strong> {t.disclaimerText}
+      </blockquote>
+    </div>
+  </div>
+</section>
